@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "birthday-preview",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8743", "--directory", "/private/tmp/claude-501/-Users-padmashreesatyanarayana-02--Oranges--projects--Projects-happy-birthday/2ab44192-866f-4bf5-a470-455f3235c973/scratchpad"],
+      "port": 8743
+    }
+  ]
+}

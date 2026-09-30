@@ -1,0 +1,742 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"></head><body>
+<title>Five Plates, Four Clips</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root{
+    --ground:#FBF5E7;
+    --surface:#FFFDF7;
+    --surface-2:#F4EAD4;
+    --line:#E0D0AE;
+    --line-soft:#EBDFC5;
+    --ink:#3A2A1C;
+    --ink-2:#6B5540;
+    --ink-3:#907756;
+    --accent:#C0356A;
+    --accent-soft:#F3D3DF;
+    --olive:#5F7034;
+    --terra:#B85A2C;
+    --code-bg:#F6EEDA;
+    --code-ink:#4A3524;
+    --shadow:rgba(90,64,34,.10);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#191510;
+      --surface:#221C15;
+      --surface-2:#2C241A;
+      --line:#3C3123;
+      --line-soft:#2F2719;
+      --ink:#F0E4CD;
+      --ink-2:#C4B091;
+      --ink-3:#96825F;
+      --accent:#F0779F;
+      --accent-soft:#42212C;
+      --olive:#9DB35F;
+      --terra:#E08A55;
+      --code-bg:#1E1811;
+      --code-ink:#DCCCAC;
+      --shadow:rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#191510;
+    --surface:#221C15;
+    --surface-2:#2C241A;
+    --line:#3C3123;
+    --line-soft:#2F2719;
+    --ink:#F0E4CD;
+    --ink-2:#C4B091;
+    --ink-3:#96825F;
+    --accent:#F0779F;
+    --accent-soft:#42212C;
+    --olive:#9DB35F;
+    --terra:#E08A55;
+    --code-bg:#1E1811;
+    --code-ink:#DCCCAC;
+    --shadow:rgba(0,0,0,.4);
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--ink);
+    font-family:'Karla', system-ui, sans-serif;
+    font-size:17px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:clamp(32px,6vw,72px) clamp(20px,5vw,36px) 96px;
+    display:flex;
+    flex-direction:column;
+    gap:clamp(40px,6vw,60px);
+  }
+
+  /* ---- masthead ---- */
+  .masthead{ display:flex; flex-direction:column; gap:14px; }
+  .eyebrow{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  h1{
+    font-family:'Petrona', Georgia, serif;
+    font-weight:500;
+    font-size:clamp(38px,7vw,58px);
+    line-height:1.04;
+    margin:0;
+    text-wrap:balance;
+    letter-spacing:-.015em;
+  }
+  h1 em{ font-style:italic; color:var(--terra); }
+  .standfirst{
+    font-size:clamp(17px,2.2vw,19px);
+    color:var(--ink-2);
+    max-width:56ch;
+    margin:0;
+  }
+
+  section{ display:flex; flex-direction:column; gap:18px; }
+
+  h2{
+    font-family:'Petrona', Georgia, serif;
+    font-weight:600;
+    font-size:clamp(24px,3.6vw,30px);
+    line-height:1.2;
+    margin:0;
+    text-wrap:balance;
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+  }
+  h2 .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    font-weight:500;
+    color:var(--accent);
+    letter-spacing:.05em;
+    flex:none;
+  }
+  h3{
+    font-family:'Karla', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--ink-2);
+    margin:0;
+  }
+  p{ margin:0; max-width:64ch; }
+  strong{ font-weight:700; color:var(--ink); }
+  a{ color:var(--accent); }
+
+  .rule{ height:1px; background:var(--line); border:0; margin:0; }
+
+  ul{ margin:0; padding-left:1.15em; display:flex; flex-direction:column; gap:.45em; max-width:64ch; }
+  li::marker{ color:var(--ink-3); }
+
+  /* ---- callout ---- */
+  .callout{
+    background:var(--surface-2);
+    border-left:3px solid var(--accent);
+    border-radius:0 6px 6px 0;
+    padding:18px 22px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .callout p{ max-width:60ch; }
+
+  /* ---- plate derivation ---- */
+  .plates{
+    display:grid;
+    grid-template-columns:repeat(5, minmax(0,1fr));
+    gap:10px;
+  }
+  @media (max-width:640px){
+    .plates{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .plates .plate.hero{ grid-column:span 2; }
+  }
+  .plate{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:9px;
+    text-align:center;
+    box-shadow:0 1px 2px var(--shadow);
+  }
+  .plate .pname{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.04em;
+    color:var(--ink);
+    font-weight:500;
+  }
+  .plate .pform{
+    font-size:12px;
+    line-height:1.4;
+    color:var(--ink-3);
+  }
+  .plate.hero{ border-color:var(--accent); background:var(--accent-soft); }
+  .plate.hero .pform{ color:var(--ink-2); }
+  .winpair{ display:flex; gap:5px; }
+
+  /* ---- prompt card ---- */
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 1px 3px var(--shadow);
+  }
+  .card-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    padding:14px 16px;
+    background:var(--surface-2);
+    border-bottom:1px solid var(--line);
+    flex-wrap:wrap;
+  }
+  .card-title{
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    min-width:0;
+  }
+  .card-title .t{
+    font-family:'Petrona', Georgia, serif;
+    font-size:19px;
+    font-weight:600;
+    line-height:1.25;
+  }
+  .card-title .region{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-3);
+    font-variant-numeric:tabular-nums;
+  }
+  pre{
+    margin:0;
+    padding:18px 16px;
+    background:var(--code-bg);
+    color:var(--code-ink);
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:13.5px;
+    line-height:1.66;
+    white-space:pre-wrap;
+    overflow-x:auto;
+  }
+
+  button.copy{
+    flex:none;
+    font-family:'Karla', sans-serif;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.03em;
+    color:var(--surface);
+    background:var(--ink);
+    border:0;
+    border-radius:999px;
+    padding:8px 15px;
+    cursor:pointer;
+    transition:opacity .15s ease, background-color .2s ease;
+  }
+  button.copy:hover{ opacity:.85; }
+  button.copy:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  button.copy.done{ background:var(--olive); }
+
+  /* ---- checklist ---- */
+  .check{ display:flex; flex-direction:column; gap:0; }
+  .check-item{
+    display:flex;
+    gap:13px;
+    padding:13px 2px;
+    border-bottom:1px solid var(--line-soft);
+    align-items:flex-start;
+  }
+  .check-item:last-child{ border-bottom:0; }
+  .check-item svg{ flex:none; margin-top:3px; color:var(--olive); }
+  .check-item p{ margin:0; }
+  .check-item .lbl{ font-weight:700; }
+
+  /* ---- filenames ---- */
+  .files{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:8px 22px;
+    background:var(--code-bg);
+    border-radius:8px;
+    padding:18px 20px;
+    border:1px solid var(--line-soft);
+  }
+  .files code{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--code-ink);
+    display:block;
+  }
+  .files .grp{ display:flex; flex-direction:column; gap:5px; }
+  .files .glabel{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-weight:700;
+    color:var(--ink-3);
+    margin-bottom:3px;
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="eyebrow">Two Windows &middot; asset production</div>
+    <h1>Five plates,<br><em>four clips</em></h1>
+    <p class="standfirst">Everything needed to turn the watercolour into a scene that opens. Three generative edits, some compositing, four short clips. Work top to bottom.</p>
+  </header>
+
+  <hr class="rule">
+
+  <section>
+    <h2><span class="num">00</span> Before the first edit</h2>
+    <p>Upscale the master PNG <strong>2× to about 2804&times;2244</strong> and derive everything from that one file. Two reasons: 1402px will visibly soften on a laptop screen, and video generators have far more to hold onto at 2.8k. Do it once, up front — every plate must share a single common ancestor or they won't composite cleanly.</p>
+    <div class="callout">
+      <p><strong>All coordinates below are given in the original 1402&times;1122 space.</strong> If you upscale 2×, double them. They're approximate on purpose — pad your selections generously, since the compositing step will crop back to what actually changed.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">01</span> Three edits become five plates</h2>
+    <p>You never generate a whole plate. You generate <strong>three isolated regions</strong> — left window shut, right window shut, the blush — and paste them onto the untouched master in different combinations. Everything outside those regions stays byte-identical across all five plates, which is the entire ballgame: it's what stops the wall from shimmering when the page cross-fades.</p>
+
+    <div class="plates">
+      <div class="plate">
+        <div class="winpair">
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M1 12a10 10 0 0 1 20 0v15H1z" fill="var(--terra)" opacity=".5"/><path d="M11 2v25M1 16h20" stroke="var(--surface)" stroke-width="1.4"/></svg>
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M1 12a10 10 0 0 1 20 0v15H1z" fill="var(--terra)" opacity=".5"/><path d="M11 2v25M1 16h20" stroke="var(--surface)" stroke-width="1.4"/></svg>
+        </div>
+        <div class="pname">P1 both&nbsp;closed</div>
+        <div class="pform">master + A + B</div>
+      </div>
+      <div class="plate">
+        <div class="winpair">
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M4 12a7 7 0 0 1 14 0v15H4z" fill="var(--olive)" opacity=".55"/><path d="M4 6v18M18 6v18" stroke="var(--terra)" stroke-width="2.4"/></svg>
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M1 12a10 10 0 0 1 20 0v15H1z" fill="var(--terra)" opacity=".5"/><path d="M11 2v25M1 16h20" stroke="var(--surface)" stroke-width="1.4"/></svg>
+        </div>
+        <div class="pname">P2 left&nbsp;open</div>
+        <div class="pform">master + B</div>
+      </div>
+      <div class="plate">
+        <div class="winpair">
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M1 12a10 10 0 0 1 20 0v15H1z" fill="var(--terra)" opacity=".5"/><path d="M11 2v25M1 16h20" stroke="var(--surface)" stroke-width="1.4"/></svg>
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M4 12a7 7 0 0 1 14 0v15H4z" fill="var(--olive)" opacity=".55"/><path d="M4 6v18M18 6v18" stroke="var(--terra)" stroke-width="2.4"/></svg>
+        </div>
+        <div class="pname">P3 right&nbsp;open</div>
+        <div class="pform">master + A</div>
+      </div>
+      <div class="plate">
+        <div class="winpair">
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M4 12a7 7 0 0 1 14 0v15H4z" fill="var(--olive)" opacity=".55"/><path d="M4 6v18M18 6v18" stroke="var(--terra)" stroke-width="2.4"/></svg>
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M4 12a7 7 0 0 1 14 0v15H4z" fill="var(--olive)" opacity=".55"/><path d="M4 6v18M18 6v18" stroke="var(--terra)" stroke-width="2.4"/></svg>
+        </div>
+        <div class="pname">P4 both&nbsp;open</div>
+        <div class="pform">the master, untouched</div>
+      </div>
+      <div class="plate hero">
+        <div class="winpair">
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M4 12a7 7 0 0 1 14 0v15H4z" fill="var(--olive)" opacity=".55"/><path d="M4 6v18M18 6v18" stroke="var(--terra)" stroke-width="2.4"/></svg>
+          <svg width="22" height="28" viewBox="0 0 22 28" aria-hidden="true"><path d="M4 12a7 7 0 0 1 14 0v15H4z" fill="var(--olive)" opacity=".55"/><path d="M4 6v18M18 6v18" stroke="var(--terra)" stroke-width="2.4"/></svg><span style="color:var(--accent);font-size:15px;align-self:center">&#10084;</span>
+        </div>
+        <div class="pname">P5 the&nbsp;blush</div>
+        <div class="pform">master + C</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>Generated P2, P3, P4, P5 already but skipped the isolated edits?</strong> You don't need them. P2 already shows the right window closed; P3 already shows the left window closed. The best P1 is <strong>free and needs no AI at all</strong>: crop the right-window region out of P2 and paste it onto P3 at the same coordinates (Preview.app's rectangular select + copy/paste, feathered a few px at the edges, works fine). That guarantees P1 matches P2 exactly where it borders the left window and matches P3 exactly where it borders the right window &mdash; better consistency than a fresh generation could give you. Region for the paste: right window &asymp; x 850&ndash;1285, y 300&ndash;685 in the original 1402&times;1122 space (double it if you upscaled).</p>
+      <p>Prefer to just generate it? Use the card below, and feed it <strong>P2</strong> as the source image &mdash; not the master &mdash; since P2 already has the harder half done.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Plate 1 &mdash; close the remaining window</span>
+          <span class="region">input: P2 &nbsp;&middot;&nbsp; region &asymp; x 160–645, y 280–645</span>
+        </div>
+        <button class="copy" data-copy="promptP1fromP2">Copy with preamble</button>
+      </div>
+      <pre id="promptP1fromP2">Edit only the left arched window and the wall immediately around it in this image. The right window in this image is already closed and correct &mdash; leave it, the bird beside it, and everything else in the photo completely untouched.
+
+Swing both wooden shutters of the left window closed so they meet in the centre of the arch and fill the opening completely. Closed, they should match the style of the right window's shutters already visible in this same image: honey-toned wood, slim glazing bars dividing each leaf into a grid of small panes, curved glazing following the arch at the top, a thin vertical seam where the two leaves meet.
+
+Behind the glass, keep the interior a dim olive green. Let a faint, indistinct silhouette of the seated man and the pale glow of his laptop screen show through the panes &mdash; suggested, not legible, as though seen through old uneven glass. Lay soft pale reflections of sky and leaves across the upper panes.
+
+Where the shutters previously stood open flat against the wall, paint continuous yellow-ochre stucco with its mottled washes, and carry the bougainvillea vine, leaves and blossoms across that area naturally so no gap, seam or ghost of the old open shutters remains.
+
+Keep completely unchanged: the wooden sill, the arched surround, every bougainvillea flower, leaf and stem hanging in front of the window, and the entire right half of the image exactly as it already appears.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span> The preamble</h2>
+    <p>This goes in front of all three image prompts. The copy button on each card <strong>already includes it</strong> — you don't need to paste it separately.</p>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title"><span class="t">Preservation preamble</span></div>
+        <button class="copy" data-copy="preamble" data-bare="1">Copy</button>
+      </div>
+      <pre id="preamble">This is a targeted retouch of an existing illustration, not a re-illustration. Everything outside the region I name must stay exactly as it is: the same watercolour paper grain, the same loose pen-and-ink linework and line weight, the same palette, the same warm sunlight falling from the upper left, and the same soft grey palm-frond shadows across the stucco.
+
+Do not restyle, recolour, relight, sharpen, upscale, reframe, or move the camera. Do not redraw anything I have not asked you to change.
+
+Match the existing style throughout: loose watercolour washes over ink outlines, visible paper texture, warm storybook illustration.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span> Edit A &mdash; shut the left window</h2>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Left window, closed</span>
+          <span class="region">region &asymp; x 160–645, y 280–645</span>
+        </div>
+        <button class="copy" data-copy="promptA">Copy with preamble</button>
+      </div>
+      <pre id="promptA">Edit only the left arched window and the wall immediately around it.
+
+Swing both wooden shutters closed so they meet in the centre of the arch and fill the opening completely. Closed, they read as a pair of honey-toned wooden casements: slim glazing bars dividing each leaf into a grid of small panes, curved glazing following the arch at the top, and a thin vertical seam where the two leaves meet in the middle.
+
+Behind the glass, keep the interior a dim olive green. Let a faint, indistinct silhouette of the seated man and the pale glow of his laptop screen show through the panes — suggested, not legible, as though seen through old uneven glass. Lay soft pale reflections of sky and leaves across the upper panes.
+
+Where the two shutters previously stood open flat against the wall, paint continuous yellow-ochre stucco with its mottled washes, and carry the bougainvillea vine, leaves and blossoms across that area naturally so no gap, seam or ghost of the old shutters remains.
+
+Keep completely unchanged: the wooden sill, the arched surround, and every bougainvillea flower, leaf and stem that hangs in front of the window — those sit in front of the shutters and must not be erased, moved or redrawn.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span> Edit B &mdash; shut the right window</h2>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Right window, closed</span>
+          <span class="region">region &asymp; x 850–1285, y 300–685</span>
+        </div>
+        <button class="copy" data-copy="promptB">Copy with preamble</button>
+      </div>
+      <pre id="promptB">Edit only the right arched window and the wall immediately around it.
+
+Swing both wooden shutters closed so they meet in the centre of the arch and fill the opening completely. Closed, they read as a pair of honey-toned wooden casements: slim glazing bars dividing each leaf into a grid of small panes, curved glazing following the arch at the top, and a thin vertical seam where the two leaves meet in the middle.
+
+Behind the glass, keep the interior a dim olive green. Let a faint, indistinct silhouette of the woman bent over her book show through the panes — suggested, not legible, as though seen through old uneven glass. Lay soft pale reflections of sky and leaves across the upper panes.
+
+Where the two shutters previously stood open flat against the wall, paint continuous yellow-ochre stucco with its mottled washes, and carry the bougainvillea vine, leaves and blossoms across that area naturally so no gap, seam or ghost of the old shutters remains.
+
+Keep completely unchanged: the wooden sill, the arched surround, the small bird perched on the sill, and every bougainvillea flower, leaf and stem hanging in front of the window. The bird sits outside on the sill, in front of the closed shutters — it stays exactly where it is, waiting.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">05</span> Edit C &mdash; the blush</h2>
+    <p>This is the payoff of the entire site, and the one edit worth re-rolling until it's right. The failure mode to watch for is character drift: a face that is <em>almost</em> the same person reads as deeply wrong when it cross-fades.</p>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">She looks up</span>
+          <span class="region">region &asymp; x 975–1150, y 430–640</span>
+        </div>
+        <button class="copy" data-copy="promptC">Copy with preamble</button>
+      </div>
+      <pre id="promptC">Edit only the woman's head, shoulders and hands in the right-hand window.
+
+She looks up from her book and turns her head toward the left of the frame — toward the other window across the wall. Her eyes open behind the round glasses and glance in that direction, slightly upward. Her chin lifts off her supporting hand, and that hand drifts up to rest lightly against her cheek.
+
+Give her a warm rosy flush high on both cheeks and lightly across the bridge of her nose: a soft watercolour bloom that bleeds outward into the skin tone, never a hard-edged circle or a painted-on dot.
+
+Add a small, involuntary, caught-out smile — lips closed or barely parted, corners tucked up. Shy and private, not broad or grinning. She has just been caught looking at someone.
+
+Critical: she must remain unmistakably the same character. Preserve her exact face shape and proportions, the weight and character of the ink lines describing her features, the top-knot bun, the bindi, the round wire glasses and the maroon kurta.
+
+Keep completely unchanged: the open book on the sill, the bird, the windowsill, the shutters, the window frame, the bougainvillea, and the lighting.</pre>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2><span class="num">06</span> The four clips</h2>
+    <p>Use a generator that accepts <strong>both a first and a last frame</strong> — Kling and Luma both do this well, Runway too. Feed it the exact plates. That's what keeps each clip landing precisely on the next state instead of drifting somewhere near it.</p>
+    <div class="callout">
+      <p><strong>The locked camera line is not optional.</strong> AI video adds a slow push or drift by default, and any camera movement at all breaks registration with the still plate underneath — the window would float away from its own wall. It's in every prompt below. Leave it in.</p>
+    </div>
+    <p>For the breeze loop, give it the same frame as first and last, generate about five seconds, and I'll play it <strong>ping-pong</strong> — forward then reversed. That makes the loop seamless by construction, so you don't have to fight for a perfect cycle.</p>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Clip 1 &mdash; the breeze</span>
+          <span class="region">P1 &rarr; P1 &nbsp;&middot;&nbsp; ~5s &nbsp;&middot;&nbsp; loops forever</span>
+        </div>
+        <button class="copy" data-copy="v1" data-bare="1">Copy</button>
+      </div>
+      <pre id="v1">Locked-off static camera. No camera movement, no zoom, no pan, no dolly, no parallax. The framing stays perfectly still and registered.
+
+A warm breeze moves through the scene. Bougainvillea leaves and blossoms flutter and turn on their stems. The palm fronds at the top right sway slowly. The soft grey palm shadows drift and shift across the yellow stucco wall. A few loose petals come free and drift down through the frame.
+
+Everything else stays completely still: the wall, the roof tiles, the closed shutters, the terracotta pots, the sill.
+
+Gentle, unhurried, dreamlike. Watercolour illustration — preserve the paper texture and the ink linework. No new objects, no people, no text.</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Clip 2 &mdash; the left window opens</span>
+          <span class="region">P1 &rarr; P2 &nbsp;&middot;&nbsp; ~1.5s</span>
+        </div>
+        <button class="copy" data-copy="v2" data-bare="1">Copy</button>
+      </div>
+      <pre id="v2">Locked-off static camera. No camera movement, no zoom, no pan, no dolly, no parallax.
+
+The two wooden shutters of the left arched window swing outward on their hinges and open, revealing the man at his laptop inside. They move with a little real weight and settle softly at the end of the swing. The bougainvillea around the frame stirs and rocks as they pass.
+
+The breeze continues throughout in the leaves and the drifting shadows. Everything else stays still.
+
+Watercolour illustration — preserve the paper texture and the ink linework. No new objects, no text.</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Clip 3 &mdash; the right window opens</span>
+          <span class="region">P2 &rarr; P4 &nbsp;&middot;&nbsp; ~1.5s</span>
+        </div>
+        <button class="copy" data-copy="v3" data-bare="1">Copy</button>
+      </div>
+      <pre id="v3">Locked-off static camera. No camera movement, no zoom, no pan, no dolly, no parallax.
+
+The two wooden shutters of the right arched window swing outward on their hinges and open, revealing the woman reading at the sill. They move with a little real weight and settle softly at the end of the swing. The bougainvillea around the frame stirs and rocks as they pass. The small bird on the sill stays put, unbothered, perhaps giving a single flick of its tail.
+
+The breeze continues throughout in the leaves and the drifting shadows. Everything else stays still. She does not look up yet — she stays absorbed in her book.
+
+Watercolour illustration — preserve the paper texture and the ink linework. No new objects, no text.</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Clip 4 &mdash; the blush</span>
+          <span class="region">P4 &rarr; P5 &nbsp;&middot;&nbsp; ~2.5s</span>
+        </div>
+        <button class="copy" data-copy="v4" data-bare="1">Copy</button>
+      </div>
+      <pre id="v4">Locked-off static camera. No camera movement, no zoom, no pan, no dolly, no parallax.
+
+The woman in the right-hand window lifts her head from her book and turns to look toward the left of the frame. Her eyes open behind her round glasses. A warm rosy blush blooms slowly across her cheeks, and a small shy smile appears. Her hand drifts up to rest against her cheek.
+
+The movement is slow, soft and a little bashful — she has just been caught looking at someone, and she likes it.
+
+The breeze continues gently in the leaves. Everything else stays still. Watercolour illustration — preserve the paper texture and the ink linework. No new objects, no text.</pre>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2><span class="num">07</span> Check before you hand them over</h2>
+    <div class="check">
+      <div class="check-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p><span class="lbl">Flip test the plates.</span> Open all five and toggle between them fast. Only the windows and her face should move. If the wall texture crawls or a vine jumps, the compositing slipped — realign rather than regenerate.</p>
+      </div>
+      <div class="check-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p><span class="lbl">Freeze-frame every clip.</span> Compare frame one against its source plate and the final frame against its destination plate. Any zoom or drift and it's a re-roll — this is the single most common failure.</p>
+      </div>
+      <div class="check-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p><span class="lbl">Watch her face in clip 4 at full size.</span> If she becomes a slightly different person partway through, that clip is unusable no matter how pretty the motion is.</p>
+      </div>
+      <div class="check-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p><span class="lbl">Export sanely.</span> Plates as PNG at full size. Clips as MP4 / H.264, no audio track, no wider than 1600px. The finished page has a hard 16MB ceiling, so if the breeze loop lands over about 4MB, trim its length before you trim its quality.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:14px">Name them like this</h3>
+    <div class="files">
+      <div class="grp">
+        <div class="glabel">plates</div>
+        <code>plate-1-both-closed.png</code>
+        <code>plate-2-left-open.png</code>
+        <code>plate-3-right-open.png</code>
+        <code>plate-4-both-open.png</code>
+        <code>plate-5-blush.png</code>
+      </div>
+      <div class="grp">
+        <div class="glabel">clips</div>
+        <code>clip-1-breeze.mp4</code>
+        <code>clip-2-open-left.mp4</code>
+        <code>clip-3-open-right.mp4</code>
+        <code>clip-4-blush.mp4</code>
+      </div>
+    </div>
+    <p style="color:var(--ink-2);font-size:15.5px">Drop them in the project folder and I'll wire up the portals, the masking, the state machine and the note. Partial deliveries are fine — the plates alone already make a working page, and the clips can land on top of it later.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2><span class="num">08</span> Outpaint to a 21:9 panorama</h2>
+    <p>The cinematic desktop crop currently works by <strong>cropping</strong> the existing 1.24:1 art down to 21:9 &mdash; centred on the windows, it loses the roofline and the pots. This is the other direction: <strong>extend the canvas</strong> so the scene is natively wide enough that nothing has to be cropped away. More wall, more garden, same two windows, now sitting inside a fuller establishing shot.</p>
+
+    <div class="callout">
+      <p><strong>The math, using your 2304&times;1856 master:</strong> to reach 21:9 at the full 1856px height with nothing cropped, the canvas needs to be about <strong>4331px wide</strong> &mdash; roughly <strong>1013px of new content on each side</strong>. That's a lot to ask in one pass. If your tool struggles, add less (400&ndash;600px a side just for breathing room) rather than pushing for the full math in one go.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Extend left and right</span>
+          <span class="region">canvas: 2304&times;1856 &rarr; &asymp;4330&times;1856</span>
+        </div>
+        <button class="copy" data-copy="promptOutpaint" data-bare="1">Copy</button>
+      </div>
+      <pre id="promptOutpaint">This is a canvas extension of an existing illustration, not a re-illustration. Preserve the entire existing image exactly as it is, pixel for pixel: do not redraw, recolour, relight, restyle, or shift anything currently in frame, including both windows, the man, the woman, the bird, the bougainvillea, the palm fronds, the terracotta pots, and the roofline.
+
+Extend the canvas by approximately 1000px on the left and 1000px on the right, so the finished image reads as a wide cinematic panorama with the two windows sitting inside a fuller view of the building's facade and garden, rather than filling the whole frame edge to edge.
+
+New content, left side: continue the same warm yellow-ochre stucco wall with its mottled watercolour washes, the same soft grey dappled shadows, and the same climbing bougainvillea with its pink and coral blossoms trailing further along the wall. Continue the terracotta roofline and its tile pattern across the top of the new area. Near the outer edge, let the wall give way — as it already begins to at the current left edge — to a glimpse of a neighbouring rooftop and a sliver of pale sky, so the eye understands the building ends there. Add one more terracotta pot with a simple potted plant near the base, echoing the pots already in frame.
+
+New content, right side: continue the same stucco wall, roofline, tile pattern, and bougainvillea vine. Continue the palm fronds draping in from the upper right, letting more of the palm tree reveal itself. Continue the stone paving or low steps already hinted at in the bottom right corner, and add one or two more terracotta pots along it.
+
+Throughout the new areas: the same loose pen-and-ink outlines, the same watercolour paper texture, the same warm sunlight falling from the upper left, the same palette. The seam between old and new must be invisible — no hard edge, no shift in colour temperature, no change in line weight.
+
+Do not add any new people, animals, windows, doors, or text.</pre>
+    </div>
+
+    <h3 style="margin-top:6px">Which tool, and how to split it</h3>
+    <ul>
+      <li><strong>Photoshop Generative Expand (recommended):</strong> resize the canvas first (Image &rarr; Canvas Size, extend both sides by the numbers above), select the new empty areas, and run Generative Fill with this prompt once. It's built for exactly this and keeps the seam cleanest since it can see and match both edges of real pixels at once.</li>
+      <li><strong>ChatGPT / Gemini / other chat-based editors:</strong> if the tool only extends one side per pass, split this into two separate jobs &mdash; run the preamble paragraph plus only the "left side" paragraph first, save that result, then feed <em>that</em> file back in and run the preamble plus only the "right side" paragraph. Each pass then only ever has to match one clean edge, not two.</li>
+    </ul>
+    <p style="color:var(--ink-2);font-size:15.5px">This edit is bigger and riskier than the plate edits &mdash; you're asking for roughly 44% more canvas per side. Expect to run it more than once, and check the seam closely at full zoom before calling it done; a faint band at the join is the usual failure mode and sometimes needs a small manual levels touch-up to disappear completely.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2><span class="num">09</span> Plates for a Midjourney panorama</h2>
+    <p>If you outpainted in Midjourney instead, you now have a beautiful wide scene &mdash; but Midjourney <strong>regenerates</strong> rather than preserving pixels, so it's a new master, not an extension of the old one. It won't crossfade against the five original plates. It needs its own small set of edits, same idea as section 01&ndash;05, just re-pointed at the new image.</p>
+    <p><strong>The panorama itself is already Wide&#8209;P1, both closed</strong> &mdash; a single grid of panes fills each arch, with just a faint silhouette behind the glass. That's also the state the page loads on by default, so it needs no edit at all. Only two AI edits are left; the third plate comes free by compositing the first two together.</p>
+
+    <div class="callout">
+      <p><strong>Recommended split:</strong> keep the original five plates for mobile &mdash; that tight, intimate framing is arguably better on a phone anyway. Use this new wide master only for the desktop cinematic view. Two asset sets, one for each shape, rather than forcing one image to do both jobs.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Wide&#8209;P2 &mdash; open the left window</span>
+          <span class="region">input: your Midjourney panorama (both closed)</span>
+        </div>
+        <button class="copy" data-copy="wideP2" data-bare="1">Copy</button>
+      </div>
+      <pre id="wideP2">This is a targeted retouch of an existing illustration, not a re-illustration. Everything outside the left window and the wall immediately around it must stay exactly as it is: the same watercolour paper grain, ink linework, palette, warm sunlight from the upper left, the palm tree, the neighbouring rooftop and sky on the left edge, the stone steps on the right, and the right-hand window exactly as closed as it already is.
+
+Open the left arched window. Swing both wooden shutters outward so they lie flat against the wall on either side of the opening, the same honey-toned wood with slim glazing bars as the shutters already show closed. Reveal the interior: a man with short dark tousled hair and a light beard, wearing a navy t-shirt, sitting with a silver laptop open on the windowsill in front of him, smiling gently down at the screen. Keep the room behind him a soft dim olive green.
+
+Leave the right-hand window and everything else in the scene completely untouched.</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Wide&#8209;P3 &mdash; open the right window</span>
+          <span class="region">input: your Midjourney panorama (both closed)</span>
+        </div>
+        <button class="copy" data-copy="wideP3" data-bare="1">Copy</button>
+      </div>
+      <pre id="wideP3">This is a targeted retouch of an existing illustration, not a re-illustration. Everything outside the right window and the wall immediately around it must stay exactly as it is: the same watercolour paper grain, ink linework, palette, warm sunlight, the palm tree, the stone steps, and the left-hand window exactly as closed as it already is.
+
+Open the right arched window. Swing both wooden shutters outward so they lie flat against the wall on either side of the opening, the same honey-toned wood with slim glazing bars as the shutters already show closed. Reveal the interior: a woman with dark hair in a top-knot bun and round wire glasses, wearing a maroon kurta, resting her chin on one hand with an open book on the windowsill in front of her, smiling softly down at the page. Add a small bird standing on the outer sill in front of the now-open window. Keep the room behind her a soft dim olive green.
+
+Leave the left-hand window and everything else in the scene completely untouched.</pre>
+    </div>
+
+    <div class="callout">
+      <p><strong>Wide&#8209;P4, both open &mdash; no AI needed.</strong> Once you have Wide&#8209;P2 and Wide&#8209;P3, crop the now-open right window out of Wide&#8209;P3 and paste it onto Wide&#8209;P2 at the same spot (or the reverse: crop the open left window from Wide&#8209;P2 onto Wide&#8209;P3). Same trick as the original plates &mdash; it guarantees a pixel-perfect match on both borders, which a fresh generation can't promise you.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <span class="t">Wide&#8209;P5 &mdash; the blush</span>
+          <span class="region">input: Wide&#8209;P4 (both open, composited)</span>
+        </div>
+        <button class="copy" data-copy="wideP5" data-bare="1">Copy</button>
+      </div>
+      <pre id="wideP5">Edit only the woman in the right-hand window. Preserve everything else in the image exactly as it is, including the man in the left window.
+
+She looks up from what she's doing and turns her head toward the left, toward the other window. Give her a warm rosy flush on both cheeks and a small, private, caught-out smile.
+
+Because she's small in this wide view, make the blush and the head-turn clear enough to read at a glance even at a distance &mdash; slightly more pronounced than you would draw it in a close-up portrait. Keep her recognisably the same character: same hair, same proportions, same clothing.</pre>
+    </div>
+
+    <p style="color:var(--ink-2);font-size:15.5px">Heads up on the blush specifically: at this scale her face is small, so the effect will read more softly than it does in the close-up plates no matter how it's drawn. One option once you have this: let the page do a slow push-in (crop tightening from the wide shot toward the windows) right as the blush triggers, so the emotional beat gets a close-up moment even inside the wide frame. Tell me if you want that and I'll build it &mdash; it's a nicer trick than expecting the small face alone to carry it.</p>
+  </section>
+
+</div>
+
+<script>
+  (function(){
+    var preambleEl = document.getElementById('preamble');
+    document.querySelectorAll('button.copy').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var target = document.getElementById(btn.dataset.copy);
+        if(!target) return;
+        var text = btn.dataset.bare
+          ? target.innerText
+          : preambleEl.innerText + '\n\n' + target.innerText;
+        var done = function(){
+          var original = btn.textContent;
+          btn.textContent = 'Copied';
+          btn.classList.add('done');
+          setTimeout(function(){
+            btn.textContent = original;
+            btn.classList.remove('done');
+          }, 1600);
+        };
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(done, function(){ select(target); });
+        } else {
+          select(target);
+        }
+      });
+    });
+    function select(node){
+      var range = document.createRange();
+      range.selectNodeContents(node);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  })();
+</script>
+</body></html>
